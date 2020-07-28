@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ControleVendas.Models;
+using ControleVendas.Models.ViewModels;
 
 namespace ControleVendas.Controllers
 {
@@ -17,7 +17,8 @@ namespace ControleVendas.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Controle de vendas, Curso C# de MVC Core";
+            ViewData["Info"] = "Criação: Reinaldo A. Almeida";
 
             return View();
         }
