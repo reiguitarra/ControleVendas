@@ -68,7 +68,7 @@ namespace ControleVendas.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Saller");
+                    b.ToTable("Seller");
                 });
 
             modelBuilder.Entity("ControleVendas.Models.VendasRegistro", b =>

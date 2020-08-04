@@ -22,10 +22,26 @@ namespace ControleVendas.Services
             return _context.Saller.ToList();
         }
 
+        
         public void Insert(Vendedor obj)
         {
             _context.Add(obj);
             _context.SaveChanges();
         }
+
+        public Vendedor FindById(int id)
+        {
+            return _context.Saller.FirstOrDefault(obj => obj.Id == id);
+        }
+
+        public void Remove(int id)
+        {
+            var obj = _context.Saller.Find(id);
+            _context.Saller.Remove(obj);
+            _context.SaveChanges();
+
+        }
+
+
     }
 }
