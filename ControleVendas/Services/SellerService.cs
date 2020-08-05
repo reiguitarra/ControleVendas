@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ControleVendas.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControleVendas.Services
 {
@@ -31,7 +32,7 @@ namespace ControleVendas.Services
 
         public Vendedor FindById(int id)
         {
-            return _context.Saller.FirstOrDefault(obj => obj.Id == id);
+            return _context.Saller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
         }
 
         public void Remove(int id)
