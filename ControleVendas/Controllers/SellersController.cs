@@ -42,6 +42,14 @@ namespace ControleVendas.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                var departmants = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Vendedor = vendedor, Departments = departmants };
+                return View(viewModel);
+            }
+
+
             _sellerService.Insert(vendedor);
             return RedirectToAction(nameof(Index));
         }
@@ -91,6 +99,7 @@ namespace ControleVendas.Controllers
 
         public IActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não fornecido! " });
@@ -114,8 +123,16 @@ namespace ControleVendas.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                var departmants = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Vendedor = vendedor, Departments = departmants };
+                return View(viewModel);
+            }
+
             if (id != vendedor.Id)
             {
+                
                 return RedirectToAction(nameof(Error), new { message = "Os Id's não correspondem! " });
             }
 

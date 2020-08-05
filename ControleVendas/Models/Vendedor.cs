@@ -9,19 +9,26 @@ namespace ControleVendas.Models
     public class Vendedor
     {
         public int Id { get; set; }
+
         [Display(Name = "Vendedor")]
+        [Required(ErrorMessage ="{0} é Requerido!")]
+        [StringLength(60, MinimumLength =3, ErrorMessage = "O nome {0} deve ter de {2} a {1} Caracteres!")]
         public string Name { get; set; }
 
         [Display(Name = "E-Mail")]
-        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage ="Entre com um e-mail válido!")]
+        [Required(ErrorMessage = "{0} é Requerido!")]
         public string Email { get; set; }
 
         [Display(Name = "Nascimento")]
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "{0} é Requerido!")]
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "Salário")]
         [DisplayFormat(DataFormatString ="{0:F2}")]
+        [Required(ErrorMessage = "{0} é Requerido!")]
+        [Range(100.0, 50000.0, ErrorMessage = "{0} Precisa ser entre {1} to {2}")]
         public double BaseSalary { get; set; }
 
         [Display(Name = "Departamento")]
