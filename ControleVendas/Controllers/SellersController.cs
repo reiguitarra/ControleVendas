@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ControleVendas.Models;
 using ControleVendas.Models.ViewModels;
 using ControleVendas.Services;
+using ControleVendas.Services.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ControleVendas.Controllers
@@ -85,6 +86,52 @@ namespace ControleVendas.Controllers
 
 
             return View(obj);
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+
+            }
+
+            var obj = _sellerService.FindById(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            List<Department> departments = _departmentService.FindAll();
+            SellerFormViewModel viewModel = new SellerFormViewModel { Vendedor = obj, Departments = departments };
+            
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Vendedor vendedor)
+        {
+            if (id != vendedor.Id)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                _sellerService.Update(vendedor);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (DbConcurrencyException)
+            {
+                return BadRequest();
+            }
         }
 
     }

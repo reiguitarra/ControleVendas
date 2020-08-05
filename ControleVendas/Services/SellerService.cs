@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ControleVendas.Models;
+using ControleVendas.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControleVendas.Services
@@ -43,6 +44,24 @@ namespace ControleVendas.Services
 
         }
 
+        public void Update(Vendedor obj)
+        {
+            if (!_context.Saller.Any(x => x.Id == obj.Id))
+            {
+                throw new NotFoundException("Id não encontrado");
+            }
 
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+
+                throw new DbConcurrencyException(e.Message);
+            }
+            
+        }
     }
 }
