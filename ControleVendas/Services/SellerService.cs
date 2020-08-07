@@ -39,10 +39,16 @@ namespace ControleVendas.Services
 
         public async Task RemoveAsync(int id)
         {
-            var obj = await _context.Saller.FindAsync(id);
-            _context.Saller.Remove(obj);
-            await _context.SaveChangesAsync();
-
+            try
+            {
+                var obj = await _context.Saller.FindAsync(id);
+                _context.Saller.Remove(obj);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                throw new IntegrityException("Não foi possível excluir o vendedor, o Mesmo já possui vendas. "+e.Message);
+            }
         }
 
         public async Task UpdateAsync(Vendedor obj)
